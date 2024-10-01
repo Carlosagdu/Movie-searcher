@@ -11,27 +11,37 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import TvIcon from "@mui/icons-material/Tv";
-import TheatersIcon from '@mui/icons-material/Theaters';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
+import TheatersIcon from "@mui/icons-material/Theaters";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { Link } from "react-router-dom";
 
 const drawerWidth = "240px";
 
 interface PrimaryNavBarProps {
   children: React.ReactNode;
 }
+const menuOptions = [
+  {
+    title: "Home",
+    endpoint: "/",
+  },
+  { title: "Movies", endpoint: "/movies" },
+  { title: "TV Series", endpoint: "/tv-series" },
+  { title: "Bookmarks", endpoint: "/bookmarks" },
+];
 
 const PermanentDrawerLeft: React.FC<PrimaryNavBarProps> = ({ children }) => {
   const returnIcon = (text: string) => {
-    switch(text){
+    switch (text) {
       case "Home":
-        return <DashboardIcon/>
-      case "Movies": 
-      return <TheatersIcon />
+        return <DashboardIcon />;
+      case "Movies":
+        return <TheatersIcon />;
       case "TV Series":
-        return <TvIcon />
+        return <TvIcon />;
       case "Bookmarks":
-        return <BookmarkIcon/>
+        return <BookmarkIcon />;
     }
   };
   return (
@@ -44,6 +54,10 @@ const PermanentDrawerLeft: React.FC<PrimaryNavBarProps> = ({ children }) => {
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
             Movie app
+          </Typography>
+
+          <Typography pt={"5px"} ml={1} variant="body2">
+            ~ For my loved one Marianela 💝
           </Typography>
         </Toolbar>
       </AppBar>
@@ -61,13 +75,18 @@ const PermanentDrawerLeft: React.FC<PrimaryNavBarProps> = ({ children }) => {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {["Home", "Movies", "TV Series", "Bookmarks"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>{returnIcon(text)}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
+            {menuOptions.map((menu, index) => (
+              <Link
+                style={{ textDecoration: "none", color: "inherit" }}
+                to={menu.endpoint}
+              >
+                <ListItem key={index} disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>{returnIcon(menu.title)}</ListItemIcon>
+                    <ListItemText primary={menu.title} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
             ))}
           </List>
         </Box>

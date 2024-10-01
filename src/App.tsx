@@ -2,6 +2,8 @@ import * as React from 'react';
 import PermanentDrawerLeft from './components/Navbar/Navbar'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import Home from './pages/home'
+import MoviesPage from './pages/movies';
+import TVSeriesPage from './pages/tvseries';
 
 export default function App() {
   return (
@@ -9,6 +11,8 @@ export default function App() {
       <PermanentDrawerLeft>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<MoviesPage />}/>
+          <Route path="/tv-series" element={<TVSeriesPage />}/>
         </Routes>
       </PermanentDrawerLeft>
     </BrowserRouter>
