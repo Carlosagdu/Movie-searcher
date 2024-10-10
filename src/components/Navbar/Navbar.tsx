@@ -93,7 +93,7 @@ const PermanentDrawerLeft: React.FC<PrimaryNavBarProps> = ({ children }) => {
       </Drawer>
       <Box
         component="main"
-        sx={{ p: 3, maxWidth: `calc(100vw - ${drawerWidth})` }}
+        sx={{ p: 3, width: `calc(100vw - ${drawerWidth})` }}
       >
         <Toolbar />
         {children}

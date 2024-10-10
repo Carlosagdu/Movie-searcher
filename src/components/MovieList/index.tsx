@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MoviesDataType } from "../../interfaces/movies";
+import { MoviesDataType } from "../../interfaces";
 import PaperContainer from "../PaperContainer";
 import { Box, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";

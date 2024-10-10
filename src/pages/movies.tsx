@@ -7,7 +7,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import MovieList from "../components/MovieList";
 import ClearIcon from "@mui/icons-material/Clear";
-import { MoviesDataType } from "../interfaces/movies";
+import { MoviesDataType } from "../interfaces";
 import SkeletonMovieList from "../components/SkeletonMovieList";
 import { IconButton } from "@mui/material";
 

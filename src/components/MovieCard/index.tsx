@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -12,7 +12,7 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import TvIcon from "@mui/icons-material/Tv";
 import ExplicitIcon from "@mui/icons-material/Explicit";
 
-import { MoviesDataType } from "../../interfaces/movies";
+import { MoviesDataType } from "../../interfaces";
 
 interface MovieCardProps {
   movie: MoviesDataType;
@@ -20,7 +20,6 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
-
   if (!isTrending) {
     return (
       <Card
@@ -33,7 +32,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
           border: "none",
         }}
       >
-        <CardActionArea sx={{ height: "100%" }}>
+        <CardActionArea
+          onClick={() => alert(`You clicked ${movie.name || movie.title}`)}
+          sx={{ height: "100%" }}
+        >
           <CardMedia
             component="img"
             // height="140"
@@ -61,14 +63,14 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
                   </Grid>
                   <Grid>
                     {movie.media_type === "movie" ? (
-                      <TheatersIcon sx={{fontSize:"18px"}} />
+                      <TheatersIcon sx={{ fontSize: "18px" }} />
                     ) : (
-                      <TvIcon sx={{fontSize:"18px"}} />
+                      <TvIcon sx={{ fontSize: "18px" }} />
                     )}
                   </Grid>
                   <Grid>
                     <Typography variant="caption" aria-label="media type">
-                      {movie.media_type === "movie" ? 'Movie' : 'TV Show'}
+                      {movie.media_type === "movie" ? "Movie" : "TV Show"}
                     </Typography>
                   </Grid>
                   <Grid>
@@ -81,8 +83,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
                       }}
                     />
                   </Grid>
-                  <Grid>{movie.adult === true && <ExplicitIcon  />}</Grid>
-                </Grid >
+                  <Grid>{movie.adult && <ExplicitIcon />}</Grid>
+                </Grid>
                 <Typography pt={1} variant="body1" aria-label="movie rating">
                   {movie.title || movie.name}
                 </Typography>
@@ -104,9 +106,17 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
         border: "none",
       }}
     >
-      <CardActionArea sx={{ height: "100%" }}>
+      <CardActionArea
+        onClick={() => alert(`you clicked ${movie.name || movie.title}`)}
+        sx={{ height: "100%" }}
+      >
         <CardContent sx={{ height: "100%", p: 0 }}>
-          <Grid container sx={{height:"100%"}} flexDirection={"column"} alignItems={"center"}>
+          <Grid
+            container
+            sx={{ height: "100%" }}
+            flexDirection={"column"}
+            alignItems={"center"}
+          >
             <Grid>
               <img
                 src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
