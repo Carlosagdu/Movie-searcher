@@ -19,8 +19,10 @@ const EntityDetail: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    // TODO: Fetch movies or tv show accordingly
     const creditsURL = `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`;
     const movieDetailURL = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
+    const tvShowURL = `https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`;
     const options = {
       method: "GET",
       headers: {
