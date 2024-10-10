@@ -13,6 +13,7 @@ import TvIcon from "@mui/icons-material/Tv";
 import ExplicitIcon from "@mui/icons-material/Explicit";
 
 import { MoviesDataType } from "../../interfaces";
+import { useNavigate } from "react-router-dom";
 
 interface MovieCardProps {
   movie: MoviesDataType;
@@ -20,6 +21,7 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
+  const navigate = useNavigate();
   if (!isTrending) {
     return (
       <Card
@@ -33,7 +35,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
         }}
       >
         <CardActionArea
-          onClick={() => alert(`You clicked ${movie.name || movie.title}`)}
+          onClick={() => navigate(`/entity/${movie.id}`, { state: movie })}
           sx={{ height: "100%" }}
         >
           <CardMedia
@@ -107,7 +109,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
       }}
     >
       <CardActionArea
-        onClick={() => alert(`you clicked ${movie.name || movie.title}`)}
+        onClick={() => navigate(`/entity/${movie.id}`, { state: movie })}
         sx={{ height: "100%" }}
       >
         <CardContent sx={{ height: "100%", p: 0 }}>

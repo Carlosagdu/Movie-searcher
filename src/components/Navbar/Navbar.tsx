@@ -77,6 +77,7 @@ const PermanentDrawerLeft: React.FC<PrimaryNavBarProps> = ({ children }) => {
           <List>
             {menuOptions.map((menu, index) => (
               <Link
+                key={index}
                 style={{ textDecoration: "none", color: "inherit" }}
                 to={menu.endpoint}
               >
