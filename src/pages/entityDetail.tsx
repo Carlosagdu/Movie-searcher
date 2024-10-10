@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
@@ -79,97 +79,101 @@ const EntityDetail: React.FC = () => {
     return (
       <Box sx={{ height: "100%", width: "100%" }}>
         <Grid container spacing={2}>
-          <Grid size={{ xs: 12, md: 2.5 }} sx={{ border: "red solid" }}>
-            <img
-              width="100%"
-              alt="movie poster"
-              height="100%"
-              src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
-            />
-          </Grid>
-          <Grid
-            container
-            spacing={1}
-            size={{ xs: 12, md: 9 }}
-            sx={{ border: "red solid" }}
-          >
-            <Grid size={{ xs: 12 }}>
-              <Typography variant={"h4"}>
-                {`${movie?.title} 
-              (${movie?.release_date})`}
-              </Typography>
-            </Grid>
-            <Grid container size={{ xs: 12 }} alignItems="center">
-              <Typography variant={"body1"}>{movie.release_date}</Typography>
-              <CircleIcon sx={{ fontSize: "5px" }} />
-              <Typography variant={"body1"}>
-                {movie.genres
-                  .slice(0, 3)
-                  .map((genre) => genre.name)
-                  .join(", ")}
-              </Typography>
-              <CircleIcon sx={{ fontSize: "5px", margin: "6px" }} />
-              <Typography variant={"body1"}>{`${movie.runtime}m`}</Typography>
-            </Grid>
-            <Grid size={12}>
-              <Divider color={"black"} variant="fullWidth" />
-            </Grid>
-            <Grid container spacing={0} size={{ xs: 6, md: 2 }} sx={{ my: 1 }}>
-              <Grid size={12}>
-                <Typography variant="h6">Rating</Typography>
-              </Grid>
-              <Grid size={4}>
-                {/* Estrella de calificación */}
-                <Star
-                  fontSize={"large"}
-                  sx={{ color: "#F5C518", ml: "15px" }}
+          <Paper elevation={1}>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 2.5 }}>
+                <img
+                  width="100%"
+                  alt="movie poster"
+                  height="100%"
+                  style={{ borderRadius: "10px" }}
+                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 />
               </Grid>
-              <Grid container size={8}>
-                <Grid size={12}>
-                  {/* Texto de calificación */}
-                  <Typography
-                    variant="body1"
-                    component="span"
-                    fontWeight="bold"
-                  >
-                    {movie.vote_average.toFixed(2)} {/* Por ejemplo: 7.0 */}
-                  </Typography>
-                  <Typography variant="body1" component="span" color="gray">
-                    /{10}
+              <Grid container spacing={1} py={1} size={{ xs: 12, md: 9.5 }}>
+                <Grid size={{ xs: 12 }}>
+                  <Typography variant={"h4"}>
+                    {`${movie.title} (${new Date(movie.release_date).getFullYear()})`}
                   </Typography>
                 </Grid>
-                <Grid size={12}>
-                  {/* Número de votos */}
-                  <Typography variant="body1" color="gray">
-                    {movie.vote_count}
+                <Grid container size={{ xs: 12 }} alignItems="center">
+                  <Typography variant={"body1"}>
+                    {movie.release_date}
                   </Typography>
+                  <CircleIcon sx={{ fontSize: "5px" }} />
+                  <Typography variant={"body1"}>
+                    {movie.genres
+                      .slice(0, 3)
+                      .map((genre) => genre.name)
+                      .join(", ")}
+                  </Typography>
+                  <CircleIcon sx={{ fontSize: "5px", margin: "6px" }} />
+                  <Typography
+                    variant={"body1"}
+                  >{`${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}</Typography>
+                </Grid>
+                <Grid size={12}>
+                  <Divider color={"black"} variant="fullWidth" />
+                </Grid>
+                <Grid
+                  container
+                  spacing={0}
+                  size={{ xs: 6, md: 2 }}
+                  sx={{ my: 1 }}
+                >
+                  <Grid size={12}>
+                    <Typography variant="h6">Rating</Typography>
+                  </Grid>
+                  <Grid size={4}>
+                    {/* Estrella de calificación */}
+                    <Star
+                      fontSize={"large"}
+                      sx={{ color: "#F5C518", ml: "15px" }}
+                    />
+                  </Grid>
+                  <Grid container size={8}>
+                    <Grid size={12}>
+                      {/* Texto de calificación */}
+                      <Typography
+                        variant="body1"
+                        component="span"
+                        fontWeight="bold"
+                      >
+                        {movie.vote_average.toFixed(2)} {/* Por ejemplo: 7.0 */}
+                      </Typography>
+                      <Typography variant="body1" component="span" color="gray">
+                        /{10}
+                      </Typography>
+                    </Grid>
+                    <Grid size={12}>
+                      {/* Número de votos */}
+                      <Typography variant="body1" color="gray">
+                        {movie.vote_count}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                <Grid size={{ xs: 12 }}>
+                  <Typography variant="overline">{movie.tagline}</Typography>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <Typography variant="h6">Overview</Typography>
+                  <Typography variant="body1">{movie.overview}</Typography>
+                </Grid>
+                <Grid container size={{ xs: 12 }}>
+                  {crews.slice(0, 9).map((crew, index) => (
+                    <Grid key={index} size={{ xs: 12, md: 4 }}>
+                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                        {crew.name}
+                      </Typography>
+                      <Typography variant="body2">{crew.department}</Typography>
+                    </Grid>
+                  ))}
                 </Grid>
               </Grid>
             </Grid>
-
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="overline">{movie.tagline}</Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <Typography variant="h6">Overview</Typography>
-              <Typography variant="body1">{movie.overview}</Typography>
-            </Grid>
-            <Grid
-              container
-              size={{ xs: 12 }}
-              sx={{ border: "darkorange solid" }}
-            >
-              {crews.slice(0, 6).map((crew, index) => (
-                <Grid key={index} size={{ xs: 12, md: 4 }}>
-                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                    {crew.name}
-                  </Typography>
-                  <Typography variant="body2">{crew.department}</Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
+          </Paper>
           <Grid size={{ xs: 12, md: 2 }} sx={{ border: "red solid" }}></Grid>
           <Grid size={{ xs: 12, md: 2 }} sx={{ border: "red solid" }}></Grid>
           <Grid size={{ xs: 12, md: 2 }} sx={{ border: "red solid" }}></Grid>
