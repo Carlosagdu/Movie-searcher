@@ -1,17 +1,27 @@
-import { Box, Paper } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Paper,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Star } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
-import { creditType, MovieDetailType } from "../interfaces";
+import { creditType, MovieDetailType, ReviewType } from "../interfaces";
 import SkeletonMovieList from "../components/SkeletonMovieList";
 import { useParams } from "react-router-dom";
+import ReviewCard from "../components/ReviewCard";
 
 const EntityDetail: React.FC = () => {
   const [crews, setCrews] = useState<creditType[]>([]);
   const [cast, setCast] = useState<creditType[]>([]);
+  const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [movie, setMovie] = useState<MovieDetailType>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState(null);
@@ -23,6 +33,7 @@ const EntityDetail: React.FC = () => {
     const creditsURL = `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`;
     const movieDetailURL = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
     const tvShowURL = `https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`;
+    const movieReviewsURL = `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`;
     const options = {
       method: "GET",
       headers: {
@@ -58,6 +69,23 @@ const EntityDetail: React.FC = () => {
       })
       .then((json) => {
         setMovie(json);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("error:", err);
+        setError(err);
+        setLoading(false);
+      });
+
+    fetch(movieReviewsURL, options)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((json) => {
+        setReviews(json.results);
         setLoading(false);
       })
       .catch((err) => {
@@ -118,7 +146,7 @@ const EntityDetail: React.FC = () => {
                 <Grid
                   container
                   spacing={0}
-                  size={{ xs: 6, md: 2 }}
+                  size={{ xs: 6, md: 1.5 }}
                   sx={{ my: 1 }}
                 >
                   <Grid size={12}>
@@ -126,10 +154,7 @@ const EntityDetail: React.FC = () => {
                   </Grid>
                   <Grid size={4}>
                     {/* Estrella de calificación */}
-                    <Star
-                      fontSize={"large"}
-                      sx={{ color: "#F5C518", ml: "15px" }}
-                    />
+                    <Star fontSize={"large"} sx={{ color: "#F5C518" }} />
                   </Grid>
                   <Grid container size={8}>
                     <Grid size={12}>
@@ -162,7 +187,7 @@ const EntityDetail: React.FC = () => {
                   <Typography variant="body1">{movie.overview}</Typography>
                 </Grid>
                 <Grid container size={{ xs: 12 }}>
-                  {crews.slice(0, 9).map((crew, index) => (
+                  {crews.slice(0, 10).map((crew, index) => (
                     <Grid key={index} size={{ xs: 12, md: 4 }}>
                       <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                         {crew.name}
@@ -174,9 +199,78 @@ const EntityDetail: React.FC = () => {
               </Grid>
             </Grid>
           </Paper>
-          <Grid size={{ xs: 12, md: 2 }} sx={{ border: "red solid" }}></Grid>
-          <Grid size={{ xs: 12, md: 2 }} sx={{ border: "red solid" }}></Grid>
-          <Grid size={{ xs: 12, md: 2 }} sx={{ border: "red solid" }}></Grid>
+          <Container>
+            <Grid container height={"100%"} spacing={1}>
+              {/*CAST & REVIEWS SECTION*/}
+              <Grid
+                container
+                size={{ xs: 12, md: 9 }}
+                sx={{ border: "red solid" }}
+              >
+                <Grid size={12}>
+                  <Typography variant="h5">Cast</Typography>
+                </Grid>
+                <Grid
+                  sx={{
+                    display: "flex",
+                    flexWrap: "nowrap",
+                    overflowX: "auto",
+                  }}
+                  py={1}
+                  container
+                  size={12}
+                  spacing={2}
+                >
+                  {cast.slice(0, 10).map((cast, index) => (
+                    <Card key={index} sx={{ width: 140, flex: "0 0 auto" }}>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          height="180"
+                          src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+                          alt="green iguana"
+                        />
+                        <CardContent sx={{ p: 1 }}>
+                          <Typography
+                            gutterBottom
+                            variant="body1"
+                            fontWeight={"bold"}
+                            component="p"
+                          >
+                            {cast.name}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{ color: "text.secondary" }}
+                          >
+                            {cast.character}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  ))}
+                </Grid>
+                <Grid size={12}>
+                  <Typography variant="h5">Reviews</Typography>
+                </Grid>
+                <Grid container spacing={2} size={12}>
+                  {reviews.slice(0, 10).map((review, index) => (
+                    <ReviewCard key={index} review={review} />
+                  ))}
+                </Grid>
+              </Grid>
+
+              {/*SIDE COLUMN*/}
+              <Grid
+                container
+                size={{ xs: 12, md: 3 }}
+                sx={{ border: "red solid" }}
+                height={"80%"}
+              >
+                {/*<Grid flexBasis={"80%"} sx={{ border: "orange solid" }}></Grid>*/}
+              </Grid>
+            </Grid>
+          </Container>
         </Grid>
       </Box>
     );
