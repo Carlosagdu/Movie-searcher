@@ -35,7 +35,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
         }}
       >
         <CardActionArea
-          onClick={() => navigate(`/entity/${movie.id}`, { state: movie })}
+          onClick={() => {
+            if (movie.media_type === "movie") {
+              navigate(`/movie/${movie.id}`);
+            } else {
+              navigate(`/tv-serie/${movie.id}`);
+            }
+          }}
           sx={{ height: "100%" }}
         >
           <CardMedia
@@ -109,7 +115,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, isTrending }) => {
       }}
     >
       <CardActionArea
-        onClick={() => navigate(`/entity/${movie.id}`, { state: movie })}
+        onClick={() => navigate(`/movie/${movie.id}`)}
         sx={{ height: "100%" }}
       >
         <CardContent sx={{ height: "100%", p: 0 }}>
